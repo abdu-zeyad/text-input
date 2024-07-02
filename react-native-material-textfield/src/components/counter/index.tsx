@@ -1,37 +1,46 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { Text } from 'react-native';
+import PropTypes from "prop-types";
+import React, { PureComponent } from "react";
+import { Text, StyleSheet, TextStyle } from "react-native";
 
-import styles from './styles';
+interface CounterProps {
+  count: number;
+  limit: number;
 
-export default class Counter extends PureComponent {
-  static propTypes = {
-    count: PropTypes.number.isRequired,
-    limit: PropTypes.number,
+  baseColor: string;
+  errorColor: string;
 
-    baseColor: PropTypes.string.isRequired,
-    errorColor: PropTypes.string.isRequired,
+  style: TextStyle;
+}
 
-    style: Text.propTypes.style,
+const Counter = ({
+  count,
+  limit,
+  baseColor,
+  errorColor,
+  style,
+}: CounterProps) => {
+  if (!limit) {
+    return null;
+  }
+
+  let textStyle = {
+    color: count > limit ? errorColor : baseColor,
   };
 
-  render() {
-    let { count, limit, baseColor, errorColor, style } = this.props;
-
-    if (!limit) {
-      return null;
-    }
-
-    let textStyle = {
-      color: count > limit?
-        errorColor:
-        baseColor,
-    };
-
-    return (
-      <Text style={[styles.text, style, textStyle]}>
-        {count} / {limit}
-      </Text>
-    );
-  }
-}
+  return (
+    <Text style={[styles.text, style, textStyle]}>
+      {count} / {limit}
+    </Text>
+  );
+};
+export default Counter;
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 12,
+    lineHeight: 16,
+    textAlign: "right",
+    backgroundColor: "transparent",
+    paddingVertical: 2,
+    marginLeft: 8,
+  },
+});
