@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { Animated } from 'react-native';
-
-import styles from './styles';
+import PropTypes from "prop-types";
+import React, { PureComponent } from "react";
+import { Animated, StyleSheet } from "react-native";
 
 export default class Affix extends PureComponent {
   static defaultProps = {
@@ -16,13 +14,9 @@ export default class Affix extends PureComponent {
     color: PropTypes.string.isRequired,
     fontSize: PropTypes.number.isRequired,
 
-    type: PropTypes
-      .oneOf(['prefix', 'suffix'])
-      .isRequired,
+    type: PropTypes.oneOf(["prefix", "suffix"]).isRequired,
 
-    labelAnimation: PropTypes
-      .instanceOf(Animated.Value)
-      .isRequired,
+    labelAnimation: PropTypes.instanceOf(Animated.Value).isRequired,
 
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -40,21 +34,21 @@ export default class Affix extends PureComponent {
 
     let textStyle = {
       includeFontPadding: false,
-      textAlignVertical: 'top',
+      textAlignVertical: "top",
 
       fontSize,
       color,
     };
 
     switch (type) {
-      case 'prefix':
+      case "prefix":
         containerStyle.paddingRight = 8;
-        textStyle.textAlign = 'left';
+        textStyle.textAlign = "left";
         break;
 
-      case 'suffix':
+      case "suffix":
         containerStyle.paddingLeft = 8;
-        textStyle.textAlign = 'right';
+        textStyle.textAlign = "right";
         break;
     }
 
@@ -65,3 +59,10 @@ export default class Affix extends PureComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    top: 2,
+    justifyContent: "center",
+  },
+});
