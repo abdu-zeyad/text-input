@@ -1,47 +1,56 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { View, Animated } from 'react-native';
+import { View, Text, Animated, StyleSheet, Platform } from "react-native";
+import React, { useState } from "react";
 
-import styles from './styles';
+type LineTypes = "solid" | "dashed" | "dotted";
 
-const lineTypes = PropTypes
-  .oneOf(['solid', 'dotted', 'dashed', 'none']);
+interface LineProps {
+  lineType: LineTypes;
+  disabledLineType: LineTypes;
 
-export default class Line extends PureComponent {
-  static defaultProps = {
-    lineType: 'solid',
-    disabledLineType: 'dotted',
+  disabled?: boolean;
+  restricted?: boolean;
 
-    disabled: false,
-    restricted: false,
-  };
+  tintColor?: string;
+  baseColor?: string;
+  errorColor?: string;
 
-  static propTypes = {
-    lineType: lineTypes,
-    disabledLineType: lineTypes,
+  lineWidth?: number;
+  activeLineWidth?: number;
+  disabledLineWidth?: number;
 
-    disabled: PropTypes.bool,
-    restricted: PropTypes.bool,
+  focusAnimation: Animated.Value;
+}
 
-    tintColor: PropTypes.string,
-    baseColor: PropTypes.string,
-    errorColor: PropTypes.string,
+const Line = ({
+  lineType = "solid",
+  disabledLineType = "dotted",
+  disabled = false,
+  restricted = false,
+  tintColor,
+  baseColor,
+  errorColor,
+  lineWidth = 1,
+  activeLineWidth = 1,
+  disabledLineWidth = 1,
+  focusAnimation,
+  ...props
+}: LineProps) => {
+  let borderStyle = disabled ? disabledLineType : lineType;
 
-    lineWidth: PropTypes.number,
-    activeLineWidth: PropTypes.number,
-    disabledLineWidth: PropTypes.number,
-
-    focusAnimation: PropTypes.instanceOf(Animated.Value),
-  };
-
-  static getDerivedStateFromProps(props, state) {
+  let initialMaxLineWidth = Math.max(
+    lineWidth,
+    activeLineWidth,
+    disabledLineWidth,
+    1
+  );
+  const getDerivedStateFromProps = (props, state) => {
     let { lineWidth, activeLineWidth, disabledLineWidth } = props;
 
     let maxLineWidth = Math.max(
       lineWidth,
       activeLineWidth,
       disabledLineWidth,
-      1,
+      1
     );
 
     if (maxLineWidth !== state.maxLineWidth) {
@@ -49,78 +58,72 @@ export default class Line extends PureComponent {
     }
 
     return null;
+  };
+
+  const [maxLineWidth, setMaxLineWidth] = useState(1);
+  if ("none" === borderStyle) {
+    return null;
   }
 
-  state = { maxLineWidth: 1 };
+  let [top, right, left] = Array.from(new Array(3), () => -1.5 * maxLineWidth);
 
-  borderProps() {
-    let {
-      disabled,
-      restricted,
-      lineWidth,
-      activeLineWidth,
-      disabledLineWidth,
-      baseColor,
-      tintColor,
-      errorColor,
-      focusAnimation,
-    } = this.props;
+  let lineStyle = {
+    //...this.borderProps(),
 
-    if (disabled) {
-      return {
-        borderColor: baseColor,
-        borderWidth: disabledLineWidth,
-      };
-    }
+    borderStyle,
+    top,
+    right,
+    left,
+  };
 
-    if (restricted) {
-      return {
-        borderColor: errorColor,
-        borderWidth: activeLineWidth,
-      };
-    }
-
+  if (disabled) {
     return {
-      borderColor: focusAnimation.interpolate({
-        inputRange: [-1, 0, 1],
-        outputRange: [errorColor, baseColor, tintColor],
-      }),
-
-      borderWidth: focusAnimation.interpolate({
-        inputRange: [-1, 0, 1],
-        outputRange: [activeLineWidth, lineWidth, activeLineWidth],
-      }),
+      borderColor: baseColor,
+      borderWidth: disabledLineWidth,
     };
   }
 
-  render() {
-    let { maxLineWidth } = this.state;
-    let { disabled, lineType, disabledLineType } = this.props;
-
-    let borderStyle = disabled?
-      disabledLineType:
-      lineType;
-
-    if ('none' === borderStyle) {
-      return null;
-    }
-
-    let [top, right, left] = Array
-      .from(new Array(3), () => -1.5 * maxLineWidth);
-
-    let lineStyle = {
-      ...this.borderProps(),
-
-      borderStyle,
-      top,
-      right,
-      left,
+  if (restricted) {
+    return {
+      borderColor: errorColor,
+      borderWidth: activeLineWidth,
     };
-
-    return (
-      <View style={styles.container} pointerEvents='none'>
-        <Animated.View style={[styles.line, lineStyle]} />
-      </View>
-    );
   }
-}
+
+  // return {
+  //   borderColor: focusAnimation.interpolate({
+  //     inputRange: [-1, 0, 1],
+  //     outputRange: [errorColor, baseColor, tintColor],
+  //   }),
+
+  //   borderWidth: focusAnimation.interpolate({
+  //     inputRange: [-1, 0, 1],
+  //     outputRange: [activeLineWidth, lineWidth, activeLineWidth],
+  //   }),
+  // };
+
+  return (
+    <View style={styles.container} pointerEvents="none">
+      <Animated.View style={[styles.line, lineStyle]} />
+    </View>
+  );
+};
+
+export default Line;
+
+const styles = StyleSheet.create({
+  line: {
+    position: "absolute",
+    bottom: 0,
+
+    ...Platform.select({
+      android: { borderRadius: Number.EPSILON },
+    }),
+  },
+
+  container: {
+    ...StyleSheet.absoluteFillObject,
+
+    overflow: "hidden",
+  },
+});
