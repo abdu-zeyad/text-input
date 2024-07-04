@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import { createRef } from "react";
+import { createRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import TextInput from "./OutlinedTextInput";
 
 export default function App() {
   // const fieldRef = createRef();
@@ -14,14 +15,30 @@ export default function App() {
   // const formatText = (text: string) => {
   //   return text.replace(/[^+\d]/g, "");
   // };
-  return <View style={styles.container}></View>;
+  const [value, setValue] = useState("");
+  return (
+    <View style={styles.container}>
+      <TextInput
+        style={{
+          borderWidth: 1,
+        }}
+      />
+      <TextInput
+        style={{
+          borderWidth: 1,
+        }}
+        placeholder="test"
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 100,
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });
