@@ -19,13 +19,16 @@ export default function App() {
   return (
     <View style={styles.container}>
       <TextInput
-        style={{
-          borderWidth: 1,
-        }}
+        style={
+          {
+            // borderWidth: 1,
+          }
+        }
       />
       <TextInput
         style={{
-          borderWidth: 1,
+          // borderWidth: 1,
+          fontSize: 30,
         }}
         placeholder="test"
       />
