@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Animated,
   LayoutChangeEvent,
@@ -8,21 +8,20 @@ import {
   ViewStyle,
   NativeSyntheticEvent,
   TextLayoutEventData,
-} from 'react-native';
+} from "react-native";
 
 import TextInputAffix, {
   Props as TextInputAffixProps,
-} from './Adornment/TextInputAffix';
+} from "./Adornment/TextInputAffix";
 import TextInputIcon, {
   Props as TextInputIconProps,
-} from './Adornment/TextInputIcon';
-import TextInputFlat from './TextInputFlat';
-import TextInputOutlined from './TextInputOutlined';
-import type { RenderProps, TextInputLabelProp } from './types';
-import { useInternalTheme } from '../../core/theming';
-import type { ThemeProp } from '../../types';
-import { forwardRef } from '../../utils/forwardRef';
-import { roundLayoutSize } from '../../utils/roundLayoutSize';
+} from "./Adornment/TextInputIcon";
+import TextInputOutlined from "./TextInputOutlined";
+import type { RenderProps, TextInputLabelProp } from "./types";
+import { useInternalTheme } from "../../core/theming";
+import type { ThemeProp } from "../../types";
+import { forwardRef } from "../../utils/forwardRef";
+import { roundLayoutSize } from "../../utils/roundLayoutSize";
 
 const BLUR_ANIMATION_DURATION = 180;
 const FOCUS_ANIMATION_DURATION = 150;
@@ -36,7 +35,7 @@ export type Props = React.ComponentPropsWithRef<typeof NativeTextInput> & {
    * In `outlined` mode, the background color of the label is derived from `colors?.background` in theme or the `backgroundColor` style.
    * This component render TextInputOutlined or TextInputFlat based on that props
    */
-  mode?: 'flat' | 'outlined';
+  mode?: "flat" | "outlined";
   left?: React.ReactNode;
   right?: React.ReactNode;
   /**
@@ -184,7 +183,7 @@ interface CompoundedComponent
 
 type TextInputHandles = Pick<
   NativeTextInput,
-  'focus' | 'clear' | 'blur' | 'isFocused' | 'setNativeProps'
+  "focus" | "clear" | "blur" | "isFocused" | "setNativeProps"
 >;
 
 const DefaultRenderer = (props: RenderProps) => <NativeTextInput {...props} />;
@@ -217,7 +216,7 @@ const DefaultRenderer = (props: RenderProps) => <NativeTextInput {...props} />;
 const TextInput = forwardRef<TextInputHandles, Props>(
   (
     {
-      mode = 'flat',
+      mode = "flat",
       dense = false,
       disabled = false,
       error: errorProp = false,
@@ -242,7 +241,7 @@ const TextInput = forwardRef<TextInputHandles, Props>(
     );
     const [focused, setFocused] = React.useState<boolean>(false);
     const [placeholder, setPlaceholder] = React.useState<string | undefined>(
-      ' '
+      " "
     );
     const [uncontrolledValue, setUncontrolledValue] = React.useState<
       string | undefined
@@ -345,7 +344,7 @@ const TextInput = forwardRef<TextInputHandles, Props>(
         // Root cause:    Placeholder initial value, which has length 0.
         // More context:  The issue was also reproduced in react-native, using its own TextInput.
         // Workaround:    Set an empty space character in the default value.
-        setPlaceholder(' ');
+        setPlaceholder(" ");
       }
 
       return () => {
@@ -482,50 +481,8 @@ const TextInput = forwardRef<TextInputHandles, Props>(
 
     const { maxFontSizeMultiplier = 1.5 } = rest;
 
-    if (mode === 'outlined') {
-      return (
-        <TextInputOutlined
-          dense={dense}
-          disabled={disabled}
-          error={errorProp}
-          multiline={multiline}
-          editable={editable}
-          render={render}
-          {...rest}
-          theme={theme}
-          value={value}
-          parentState={{
-            labeled,
-            error,
-            focused,
-            placeholder,
-            value,
-            labelTextLayout,
-            labelLayout,
-            leftLayout,
-            rightLayout,
-            inputContainerLayout,
-          }}
-          innerRef={(ref) => {
-            root.current = ref;
-          }}
-          onFocus={handleFocus}
-          forceFocus={forceFocus}
-          onBlur={handleBlur}
-          onChangeText={handleChangeText}
-          onLayoutAnimatedText={handleLayoutAnimatedText}
-          onInputLayout={handleInputContainerLayout}
-          onLabelTextLayout={handleLabelTextLayout}
-          onLeftAffixLayoutChange={onLeftAffixLayoutChange}
-          onRightAffixLayoutChange={onRightAffixLayoutChange}
-          maxFontSizeMultiplier={maxFontSizeMultiplier}
-          contentStyle={contentStyle}
-        />
-      );
-    }
-
     return (
-      <TextInputFlat
+      <TextInputOutlined
         dense={dense}
         disabled={disabled}
         error={errorProp}
@@ -553,9 +510,9 @@ const TextInput = forwardRef<TextInputHandles, Props>(
         onFocus={handleFocus}
         forceFocus={forceFocus}
         onBlur={handleBlur}
-        onInputLayout={handleInputContainerLayout}
         onChangeText={handleChangeText}
         onLayoutAnimatedText={handleLayoutAnimatedText}
+        onInputLayout={handleInputContainerLayout}
         onLabelTextLayout={handleLabelTextLayout}
         onLeftAffixLayoutChange={onLeftAffixLayoutChange}
         onRightAffixLayoutChange={onRightAffixLayoutChange}
