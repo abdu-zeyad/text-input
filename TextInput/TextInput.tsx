@@ -18,7 +18,6 @@ import TextInputIcon, {
 } from "./Adornment/TextInputIcon";
 import TextInputOutlined from "./TextInputOutlined";
 import type { RenderProps, TextInputLabelProp } from "./types";
-import type { ThemeProp } from "../../types";
 import { forwardRef } from "../../utils/forwardRef";
 import { roundLayoutSize } from "../../utils/roundLayoutSize";
 
@@ -147,7 +146,6 @@ export type Props = React.ComponentPropsWithRef<typeof NativeTextInput> & {
   /**
    * @optional
    */
-  theme?: ThemeProp;
   /**
    * testID to be used on tests.
    */
@@ -223,7 +221,6 @@ const TextInput = forwardRef<TextInputHandles, Props>(
       editable = true,
       contentStyle,
       render = DefaultRenderer,
-      theme: themeOverrides,
       ...rest
     }: Props,
     ref
