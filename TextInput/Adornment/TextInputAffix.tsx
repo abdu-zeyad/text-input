@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Animated,
   GestureResponderEvent,
@@ -9,13 +9,11 @@ import {
   Text,
   TextStyle,
   ViewStyle,
-} from 'react-native';
+} from "react-native";
 
-import { AdornmentSide } from './enums';
-import { getTextColor } from './utils';
-import { useInternalTheme } from '../../../core/theming';
-import type { ThemeProp } from '../../../types';
-import { getConstants } from '../helpers';
+import { AdornmentSide } from "./enums";
+import { getTextColor } from "./utils";
+import { getConstants } from "../helpers";
 
 export type Props = {
   /**
@@ -38,7 +36,6 @@ export type Props = {
   /**
    * @optional
    */
-  theme?: ThemeProp;
 };
 
 type ContextState = {
@@ -54,7 +51,7 @@ type ContextState = {
 };
 
 const AffixContext = React.createContext<ContextState>({
-  textStyle: { fontFamily: '', color: '' },
+  textStyle: { fontFamily: "", color: "" },
   topPosition: null,
   side: AdornmentSide.Left,
 });
@@ -123,13 +120,11 @@ const AffixAdornment: React.FunctionComponent<
 const TextInputAffix = ({
   text,
   textStyle: labelStyle,
-  theme: themeOverrides,
   onLayout: onTextLayout,
   onPress,
   accessibilityLabel = text,
 }: Props) => {
-  const theme = useInternalTheme(themeOverrides);
-  const { AFFIX_OFFSET } = getConstants(theme.isV3);
+  const AFFIX_OFFSET = 10;
 
   const {
     textStyle,
@@ -144,14 +139,14 @@ const TextInputAffix = ({
   } = React.useContext(AffixContext);
 
   const offset =
-    typeof paddingHorizontal === 'number' ? paddingHorizontal : AFFIX_OFFSET;
+    typeof paddingHorizontal === "number" ? paddingHorizontal : AFFIX_OFFSET;
 
   const style = {
     top: topPosition,
     [side]: offset,
   } as ViewStyle;
 
-  const textColor = getTextColor({ theme, disabled });
+  const textColor = getTextColor({ disabled });
 
   const affix = (
     <Animated.View
@@ -195,13 +190,13 @@ const TextInputAffix = ({
   return affix;
 };
 
-TextInputAffix.displayName = 'TextInput.Affix';
+TextInputAffix.displayName = "TextInput.Affix";
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
