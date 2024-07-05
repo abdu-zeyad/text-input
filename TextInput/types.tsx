@@ -12,8 +12,6 @@ import type {
   TextLayoutEventData,
 } from "react-native";
 
-import type { $Omit } from "./../../types";
-
 export type TextInputLabelProp = string | React.ReactElement;
 
 type TextInputProps = React.ComponentPropsWithRef<typeof NativeTextInput> & {
@@ -40,7 +38,6 @@ type TextInputProps = React.ComponentPropsWithRef<typeof NativeTextInput> & {
   render?: (props: RenderProps) => React.ReactNode;
   value?: string;
   style?: StyleProp<TextStyle>;
-  theme?: ThemeProp;
   testID?: string;
   contentStyle?: StyleProp<TextStyle>;
   outlineStyle?: StyleProp<ViewStyle>;
@@ -66,7 +63,7 @@ export type RenderProps = {
   adjustsFontSizeToFit?: boolean;
   testID?: string;
 };
-type TextInputTypesWithoutMode = $Omit<TextInputProps, "mode">;
+type TextInputTypesWithoutMode = TextInputProps;
 export type State = {
   labeled: Animated.Value;
   error: Animated.Value;
@@ -92,7 +89,7 @@ export type ChildTextInputProps = {
   onLabelTextLayout: (event: NativeSyntheticEvent<TextLayoutEventData>) => void;
   onLeftAffixLayoutChange: (event: LayoutChangeEvent) => void;
   onRightAffixLayoutChange: (event: LayoutChangeEvent) => void;
-} & $Omit<TextInputTypesWithoutMode, "theme"> & {};
+} & TextInputTypesWithoutMode;
 
 export type LabelProps = {
   mode?: "flat" | "outlined";
