@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import TextInputOutlined from "./TextInput/TextInputOutlined";
 
 const App = () => {
   return (
@@ -8,9 +7,7 @@ const App = () => {
       style={{
         padding: 100,
       }}
-    >
-      <TextInputOutlined />
-    </View>
+    ></View>
   );
 };
 
