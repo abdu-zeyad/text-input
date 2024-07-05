@@ -18,8 +18,8 @@ import TextInputIcon, {
 } from "./Adornment/TextInputIcon";
 import TextInputOutlined from "./TextInputOutlined";
 import type { RenderProps, TextInputLabelProp } from "./types";
-import { forwardRef } from "./forwardRef";
-import { roundLayoutSize } from "./roundLayoutSize";
+import { forwardRef } from "../../utils/forwardRef";
+import { roundLayoutSize } from "../../utils/roundLayoutSize";
 
 const BLUR_ANIMATION_DURATION = 180;
 const FOCUS_ANIMATION_DURATION = 150;
