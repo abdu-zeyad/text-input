@@ -18,7 +18,6 @@ import TextInputIcon, {
 } from "./Adornment/TextInputIcon";
 import TextInputOutlined from "./TextInputOutlined";
 import type { RenderProps, TextInputLabelProp } from "./types";
-import { useInternalTheme } from "../../core/theming";
 import type { ThemeProp } from "../../types";
 import { forwardRef } from "../../utils/forwardRef";
 import { roundLayoutSize } from "../../utils/roundLayoutSize";
@@ -229,7 +228,6 @@ const TextInput = forwardRef<TextInputHandles, Props>(
     }: Props,
     ref
   ) => {
-    const theme = useInternalTheme(themeOverrides);
     const isControlled = rest.value !== undefined;
     const validInputValue = isControlled ? rest.value : rest.defaultValue;
 
@@ -285,7 +283,7 @@ const TextInput = forwardRef<TextInputHandles, Props>(
 
     const root = React.useRef<NativeTextInput | undefined | null>();
 
-    const { scale } = theme.animation;
+    const scale = 1;
 
     React.useImperativeHandle(ref, () => ({
       focus: () => root.current?.focus(),
@@ -490,7 +488,6 @@ const TextInput = forwardRef<TextInputHandles, Props>(
         editable={editable}
         render={render}
         {...rest}
-        theme={theme}
         value={value}
         parentState={{
           labeled,
