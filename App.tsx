@@ -9,7 +9,8 @@ const App = () => {
         padding: 100,
       }}
     >
-      <TextInput />
+      <TextInput label={"testtt"} />
+      <TextInput label={"gggg"} />
     </View>
   );
 };
