@@ -13,9 +13,7 @@ import {
 import TextInputAffix, {
   Props as TextInputAffixProps,
 } from "./Adornment/TextInputAffix";
-import TextInputIcon, {
-  Props as TextInputIconProps,
-} from "./Adornment/TextInputIcon";
+import TextInputIcon from "./Adornment/TextInputIcon";
 import TextInputOutlined from "./TextInputOutlined";
 import type { RenderProps, TextInputLabelProp } from "./types";
 import { forwardRef } from "./forwardRef";
@@ -174,7 +172,7 @@ interface CompoundedComponent
   extends React.ForwardRefExoticComponent<
     Props & React.RefAttributes<TextInputHandles>
   > {
-  Icon: React.FunctionComponent<TextInputIconProps>;
+  Icon: any;
   Affix: React.FunctionComponent<Partial<TextInputAffixProps>>;
 }
 

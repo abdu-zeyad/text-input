@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import {
   Animated,
   ColorValue,
   Platform,
   StyleSheet,
   useWindowDimensions,
-} from 'react-native';
+} from "react-native";
 
-import AnimatedText from '../../Typography/AnimatedText';
-import { getConstants } from '../helpers';
-import type { InputLabelProps } from '../types';
+import { getConstants } from "../helpers";
+import type { InputLabelProps } from "../types";
+import AnimatedText from "../AnimatedText";
 
 const InputLabel = (props: InputLabelProps) => {
   const {
@@ -132,7 +132,7 @@ const InputLabel = (props: InputLabelProps) => {
       style={[
         StyleSheet.absoluteFill,
         styles.labelContainer,
-        Platform.OS !== 'web' && { width },
+        Platform.OS !== "web" && { width },
         { opacity },
         labelTranslationX,
       ]}
@@ -151,7 +151,6 @@ const InputLabel = (props: InputLabelProps) => {
         testID,
       })}
       <AnimatedText
-        variant="bodySmall"
         onLayout={onLayoutAnimatedText}
         onTextLayout={onLabelTextLayout}
         style={[
@@ -167,7 +166,6 @@ const InputLabel = (props: InputLabelProps) => {
         {label}
       </AnimatedText>
       <AnimatedText
-        variant={focused ? 'bodyLarge' : 'bodySmall'}
         style={[
           commonStyles,
           {
