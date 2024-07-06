@@ -34,7 +34,7 @@ const App = () => {
           );
         }}
       />
-      <CustomTextInput />
+      <CustomTextInput placeholder="asdasdasdasd" />
     </View>
   );
 };

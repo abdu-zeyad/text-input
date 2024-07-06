@@ -32,6 +32,9 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
 
   const [isActive, setIsActive] = useState(false);
 
+  // console.log(textWidth, textHeight, "text");
+  // console.log(boxHeight, "box");
+
   const focus = (duration = 200) => {
     if (boxHeight && textHeight) {
       // Ensure dimensions are set before performing the animation
@@ -41,12 +44,12 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
         useNativeDriver: true,
       }).start();
       Animated.timing(translateY, {
-        toValue: -boxHeight / 2 - textHeight * SCALE,
+        toValue: -(boxHeight / 2 + textHeight * SCALE),
         duration,
         useNativeDriver: true,
       }).start();
       Animated.timing(translateX, {
-        toValue: -textWidth * SCALE * 0.5,
+        toValue: -(textWidth * (1 - SCALE) * SCALE),
         duration,
         useNativeDriver: true,
       }).start();
@@ -107,6 +110,7 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
             padding: 10,
             zIndex: 1,
             justifyContent: "center",
+            //backgroundColor: "blue",
           }}
           pointerEvents="none"
           onLayout={(e) => {
@@ -115,7 +119,7 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
           }}
         >
           {props.placeholder && (
-            <Animated.Text
+            <Animated.View
               onLayout={(e) => {
                 const dim = e.nativeEvent.layout;
                 setTextWidth(dim.width);
@@ -137,11 +141,11 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
                 backgroundColor: "white",
                 justifyContent: "center",
                 paddingHorizontal: 5,
-                color: isActive ? "blue" : "black",
+                // color: isActive ? "blue" : "black",
               }}
             >
-              {props.placeholder}
-            </Animated.Text>
+              <Text>{props.placeholder}</Text>
+            </Animated.View>
           )}
         </View>
 
