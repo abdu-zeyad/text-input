@@ -136,7 +136,7 @@ const InputLabel = (props: InputLabelProps) => {
         { opacity },
         labelTranslationX,
         {
-          borderWidth: 1,
+          // borderWidth: 1,
         },
       ]}
     >
@@ -148,7 +148,7 @@ const InputLabel = (props: InputLabelProps) => {
         baseLabelTranslateX,
         topPosition,
         label,
-        backgroundColor: "red",
+        backgroundColor,
         roundness,
         maxFontSizeMultiplier: maxFontSizeMultiplier,
         testID,

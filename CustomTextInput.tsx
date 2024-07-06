@@ -109,7 +109,8 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
             height: "100%",
             padding: 10,
             zIndex: 1,
-            justifyContent: "center",
+            backgroundColor: "red",
+            // justifyContent: "center",
             //backgroundColor: "blue",
           }}
           pointerEvents="none"
