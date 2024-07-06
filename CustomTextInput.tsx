@@ -16,7 +16,7 @@ const SCALE = 0.7;
 const CustomTextInput = (inputProps: CustomTextInputProps) => {
   const { style, ...props } = inputProps;
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(props.value);
 
   const scale = useRef(new Animated.Value(1)).current;
   const translateY = useRef(new Animated.Value(1)).current;

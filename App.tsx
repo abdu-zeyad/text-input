@@ -16,6 +16,7 @@ const App = () => {
       <CustomTextInput
         placeholder="test"
         style={{ marginBottom: 20, borderRadius: 5 }}
+        value="sadas"
       />
       <CustomTextInput />
     </View>
