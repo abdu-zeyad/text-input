@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+// import { TextInput } from "react-native-paper";
 import TextInput from "./TextInput/TextInput";
 
 const App = () => {
@@ -9,7 +10,7 @@ const App = () => {
         padding: 100,
       }}
     >
-      <TextInput label={"testtt"} />
+      <TextInput label={"testtt"} mode="outlined" />
       <TextInput label={"gggg"} />
     </View>
   );
