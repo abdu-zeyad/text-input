@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import TextInput from "./TextInput/TextInput";
+import { configureFonts } from "react-native-paper";
 
 const App = () => {
   return (
