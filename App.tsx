@@ -13,7 +13,10 @@ const App = () => {
         padding: 100,
       }}
     >
-      <CustomTextInput placeholder="test" />
+      <CustomTextInput
+        placeholder="test"
+        style={{ marginBottom: 20, borderRadius: 5 }}
+      />
       <CustomTextInput />
     </View>
   );

@@ -5,13 +5,16 @@ import {
   Text,
   TextInput,
   TextInputProps,
+  TextStyle,
   View,
 } from "react-native";
 import React, { useRef, useState } from "react";
 
 interface CustomTextInputProps extends TextInputProps {}
 
-const CustomTextInput = (props: CustomTextInputProps) => {
+const CustomTextInput = (inputProps: CustomTextInputProps) => {
+  const { style, ...props } = inputProps;
+
   const scale = useRef(new Animated.Value(1)).current;
   const translateY = useRef(new Animated.Value(1)).current;
   const translateX = useRef(new Animated.Value(1)).current;
@@ -19,8 +22,6 @@ const CustomTextInput = (props: CustomTextInputProps) => {
   const [boxHeight, setBoxHeight] = useState(0);
   const [textWidth, setTextWidth] = useState(0);
   const [textHeight, setTextHeight] = useState(0);
-
-  console.log(textHeight);
 
   const SCALE = 0.7;
 
@@ -59,17 +60,16 @@ const CustomTextInput = (props: CustomTextInputProps) => {
     }).start();
   };
 
+  const styles = style?.valueOf() as TextStyle | undefined;
+
   return (
     <View
       style={{
-        borderWidth: 1,
-        borderColor: "red",
-        marginBottom: 20,
+        marginBottom: styles?.marginBottom,
       }}
     >
       <View
         style={{
-          borderWidth: 1,
           position: "absolute",
           width: "100%",
           height: "100%",
@@ -104,8 +104,7 @@ const CustomTextInput = (props: CustomTextInputProps) => {
                 },
               ],
               alignSelf: "flex-start",
-              //borderWidth: 1,
-              backgroundColor: "red",
+              backgroundColor: "white",
               justifyContent: "center",
               paddingHorizontal: 5,
             }}
@@ -117,15 +116,24 @@ const CustomTextInput = (props: CustomTextInputProps) => {
 
       <TextInput
         {...props}
-        style={{
-          borderWidth: 1,
-          padding: 15,
-        }}
+        style={[
+          style,
+          {
+            padding: 15,
+            margin: 0,
+            marginBottom: 0,
+            marginVertical: 0,
+            marginTop: 0,
+            borderWidth: 1,
+          },
+        ]}
         onFocus={(e) => {
           focus();
+          props.onFocus && props.onFocus(e);
         }}
         onBlur={(e) => {
           blur();
+          props.onBlur && props.onBlur(e);
         }}
         placeholder=""
       />
