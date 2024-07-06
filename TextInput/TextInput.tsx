@@ -10,10 +10,6 @@ import {
   TextLayoutEventData,
 } from "react-native";
 
-import TextInputAffix, {
-  Props as TextInputAffixProps,
-} from "./Adornment/TextInputAffix";
-import TextInputIcon from "./Adornment/TextInputIcon";
 import TextInputOutlined from "./TextInputOutlined";
 import type { RenderProps, TextInputLabelProp } from "./types";
 import { forwardRef } from "./forwardRef";
@@ -173,7 +169,6 @@ interface CompoundedComponent
     Props & React.RefAttributes<TextInputHandles>
   > {
   Icon: any;
-  Affix: React.FunctionComponent<Partial<TextInputAffixProps>>;
 }
 
 type TextInputHandles = Pick<
@@ -515,10 +510,8 @@ const TextInput = forwardRef<TextInputHandles, Props>(
   }
 ) as CompoundedComponent;
 // @component ./Adornment/TextInputIcon.tsx
-TextInput.Icon = TextInputIcon;
 
 // @component ./Adornment/TextInputAffix.tsx
 // @ts-ignore Types of property 'theme' are incompatible.
-TextInput.Affix = TextInputAffix;
 
 export default TextInput;

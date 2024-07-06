@@ -1,7 +1,4 @@
 import { Platform } from "react-native";
-
-import { AdornmentSide, AdornmentType } from "./Adornment/enums";
-import type { AdornmentConfig } from "./Adornment/types";
 import {
   MIN_WIDTH,
   ADORNMENT_SIZE,
@@ -274,10 +271,8 @@ export function calculateOutlinedIconAndAffixTopPosition({
 }
 
 export const calculateFlatInputHorizontalPadding = ({
-  adornmentConfig,
   isV3,
 }: {
-  adornmentConfig: AdornmentConfig[];
   isV3?: boolean;
 }) => {
   const { LABEL_PADDING_HORIZONTAL, ADORNMENT_OFFSET, FLAT_INPUT_OFFSET } =
@@ -285,18 +280,6 @@ export const calculateFlatInputHorizontalPadding = ({
 
   let paddingLeft = LABEL_PADDING_HORIZONTAL;
   let paddingRight = LABEL_PADDING_HORIZONTAL;
-
-  adornmentConfig.forEach(({ type, side }) => {
-    if (type === AdornmentType.Icon && side === AdornmentSide.Left) {
-      paddingLeft = ADORNMENT_SIZE + ADORNMENT_OFFSET + FLAT_INPUT_OFFSET;
-    } else if (side === AdornmentSide.Right) {
-      if (type === AdornmentType.Affix) {
-        paddingRight = ADORNMENT_SIZE + ADORNMENT_OFFSET + FLAT_INPUT_OFFSET;
-      } else if (type === AdornmentType.Icon) {
-        paddingRight = ADORNMENT_SIZE + ADORNMENT_OFFSET + FLAT_INPUT_OFFSET;
-      }
-    }
-  });
 
   return { paddingLeft, paddingRight };
 };

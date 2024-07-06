@@ -135,6 +135,9 @@ const InputLabel = (props: InputLabelProps) => {
         Platform.OS !== "web" && { width },
         { opacity },
         labelTranslationX,
+        {
+          borderWidth: 1,
+        },
       ]}
     >
       {labelBackground?.({
@@ -145,7 +148,7 @@ const InputLabel = (props: InputLabelProps) => {
         baseLabelTranslateX,
         topPosition,
         label,
-        backgroundColor,
+        backgroundColor: "red",
         roundness,
         maxFontSizeMultiplier: maxFontSizeMultiplier,
         testID,
@@ -157,6 +160,7 @@ const InputLabel = (props: InputLabelProps) => {
           commonStyles,
           {
             color: activeColor,
+            // backgroundColor: "red",
           },
         ]}
         numberOfLines={1}

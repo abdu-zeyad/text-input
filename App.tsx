@@ -1,17 +1,20 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Animated, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useRef } from "react";
+import CustomTextInput from "./CustomTextInput";
 // import { TextInput } from "react-native-paper";
-import TextInput from "./TextInput/TextInput";
+// import TextInput from "./TextInput/TextInput";
 
 const App = () => {
+  const scale = useRef(new Animated.Value(1)).current;
+
   return (
     <View
       style={{
         padding: 100,
       }}
     >
-      <TextInput label={"testtt"} mode="outlined" />
-      <TextInput label={"gggg"} />
+      <CustomTextInput />
+      <CustomTextInput />
     </View>
   );
 };

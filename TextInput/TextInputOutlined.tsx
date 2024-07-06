@@ -12,17 +12,11 @@ import {
 } from "react-native";
 
 import { Outline } from "./Addons/Outline";
-import { AdornmentType, AdornmentSide } from "./Adornment/enums";
-import TextInputAdornment, {
-  getAdornmentConfig,
-  getAdornmentStyleAdjustmentForNativeInput,
-  TextInputAdornmentProps,
-} from "./Adornment/TextInputAdornment";
+
 import {
   MAXIMIZED_LABEL_FONT_SIZE,
   MINIMIZED_LABEL_FONT_SIZE,
   LABEL_WIGGLE_X_OFFSET,
-  ADORNMENT_SIZE,
   OUTLINE_MINIMIZED_LABEL_Y_OFFSET,
   LABEL_PADDING_TOP,
   MIN_DENSE_HEIGHT_OUTLINED,
@@ -77,13 +71,10 @@ const TextInputOutlined = ({
   contentStyle,
   ...rest
 }: ChildTextInputProps) => {
-  const adornmentConfig = getAdornmentConfig({ left, right });
-
   const font = "regular";
   const hasActiveOutline = parentState.focused || error;
 
-  const { INPUT_PADDING_HORIZONTAL, MIN_HEIGHT, ADORNMENT_OFFSET, MIN_WIDTH } =
-    getConstants();
+  const { INPUT_PADDING_HORIZONTAL, MIN_HEIGHT, MIN_WIDTH } = getConstants();
 
   const {
     fontSize: fontSizeStyle,
@@ -133,20 +124,6 @@ const TextInputOutlined = ({
       (fontSize - MINIMIZED_LABEL_FONT_SIZE) * labelScale);
 
   let labelTranslationXOffset = 0;
-  const isAdornmentLeftIcon = adornmentConfig.some(
-    ({ side, type }) =>
-      side === AdornmentSide.Left && type === AdornmentType.Icon
-  );
-  const isAdornmentRightIcon = adornmentConfig.some(
-    ({ side, type }) =>
-      side === AdornmentSide.Right && type === AdornmentType.Icon
-  );
-
-  if (isAdornmentLeftIcon) {
-    labelTranslationXOffset =
-      (I18nManager.getConstants().isRTL ? -1 : 1) *
-      (ADORNMENT_SIZE + ADORNMENT_OFFSET - (true ? 0 : 8));
-  }
 
   const minInputHeight =
     (dense ? MIN_DENSE_HEIGHT_OUTLINED : MIN_HEIGHT) - paddingTop;
@@ -231,11 +208,7 @@ const TextInputOutlined = ({
     testID,
     contentStyle,
     inputContainerLayout: {
-      width:
-        parentState.inputContainerLayout.width +
-        (isAdornmentRightIcon || isAdornmentLeftIcon
-          ? INPUT_PADDING_HORIZONTAL
-          : 0),
+      width: parentState.inputContainerLayout.width,
     },
     opacity:
       parentState.value || parentState.focused
@@ -274,55 +247,13 @@ const TextInputOutlined = ({
   });
   const iconTopPosition = calculateOutlinedIconAndAffixTopPosition({
     height: outlinedHeight,
-    affixHeight: ADORNMENT_SIZE,
+    affixHeight: 0,
     labelYOffset: -yOffset,
   });
 
-  const rightAffixWidth = right
-    ? rightLayout.width || ADORNMENT_SIZE
-    : ADORNMENT_SIZE;
+  const rightAffixWidth = right ? rightLayout.width || 0 : 0;
 
-  const leftAffixWidth = left
-    ? leftLayout.width || ADORNMENT_SIZE
-    : ADORNMENT_SIZE;
-
-  const adornmentStyleAdjustmentForNativeInput =
-    getAdornmentStyleAdjustmentForNativeInput({
-      adornmentConfig,
-      rightAffixWidth,
-      leftAffixWidth,
-      mode: "outlined",
-    });
-  const affixTopPosition = {
-    [AdornmentSide.Left]: leftAffixTopPosition,
-    [AdornmentSide.Right]: rightAffixTopPosition,
-  };
-  const onAffixChange = {
-    [AdornmentSide.Left]: onLeftAffixLayoutChange,
-    [AdornmentSide.Right]: onRightAffixLayoutChange,
-  };
-
-  let adornmentProps: TextInputAdornmentProps = {
-    adornmentConfig,
-    forceFocus,
-    topPosition: {
-      [AdornmentType.Icon]: iconTopPosition,
-      [AdornmentType.Affix]: affixTopPosition,
-    },
-    onAffixChange,
-    isTextInputFocused: parentState.focused,
-    maxFontSizeMultiplier: rest.maxFontSizeMultiplier,
-    disabled,
-  };
-  if (adornmentConfig.length) {
-    adornmentProps = {
-      ...adornmentProps,
-      left,
-      right,
-      textStyle: { fontSize, lineHeight, fontWeight },
-      visible: parentState.labeled,
-    };
-  }
+  const leftAffixWidth = left ? leftLayout.width || 0 : 0;
 
   return (
     <View style={viewStyle}>
@@ -402,14 +333,12 @@ const TextInputOutlined = ({
                 MIN_WIDTH
               ),
             },
-            Platform.OS === "web" && { outline: "none" },
-            adornmentStyleAdjustmentForNativeInput,
+
             contentStyle,
           ],
           testID,
         } as RenderProps)}
       </View>
-      <TextInputAdornment {...adornmentProps} />
     </View>
   );
 };
