@@ -11,9 +11,12 @@ import {
 import React, { useRef, useState } from "react";
 
 interface CustomTextInputProps extends TextInputProps {}
+const SCALE = 0.7;
 
 const CustomTextInput = (inputProps: CustomTextInputProps) => {
   const { style, ...props } = inputProps;
+
+  const [value, setValue] = useState("");
 
   const scale = useRef(new Animated.Value(1)).current;
   const translateY = useRef(new Animated.Value(1)).current;
@@ -23,7 +26,7 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
   const [textWidth, setTextWidth] = useState(0);
   const [textHeight, setTextHeight] = useState(0);
 
-  const SCALE = 0.7;
+  const textInputRef = useRef<TextInput>(null);
 
   const focus = () => {
     Animated.timing(scale, {
@@ -43,6 +46,10 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
     }).start();
   };
   const blur = () => {
+    if (value) {
+      return;
+    }
+
     Animated.timing(scale, {
       toValue: 1,
       duration: 200,
@@ -127,6 +134,11 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
             borderWidth: 1,
           },
         ]}
+        value={props.value ?? value}
+        onChangeText={(t) => {
+          props.onChangeText && props.onChangeText(t);
+          setValue(t);
+        }}
         onFocus={(e) => {
           focus();
           props.onFocus && props.onFocus(e);
@@ -136,6 +148,7 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
           props.onBlur && props.onBlur(e);
         }}
         placeholder=""
+        ref={textInputRef}
       />
     </View>
   );
