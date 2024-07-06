@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ColorValue,
   GestureResponderEvent,
@@ -6,25 +6,25 @@ import {
   StyleSheet,
   View,
   ViewStyle,
-} from 'react-native';
+} from "react-native";
 
-import { getIconColor } from './utils';
-import { useInternalTheme } from '../../../core/theming';
-import type { $Omit, ThemeProp } from '../../../types';
-import type { IconSource } from '../../Icon';
-import IconButton from '../../IconButton/IconButton';
-import { ICON_SIZE } from '../constants';
-import { getConstants } from '../helpers';
+import { getIconColor } from "./utils";
+import { useInternalTheme } from "../others";
+import type { $Omit, ThemeProp } from "../generalTypes";
+// import type { IconSource } from "../../Icon";
+// import IconButton from "../../IconButton/IconButton";
+import { ICON_SIZE } from "../constants";
+import { getConstants } from "../helpers";
 
 export type Props = $Omit<
-  React.ComponentProps<typeof IconButton>,
-  'icon' | 'theme' | 'color' | 'iconColor'
+  React.ComponentProps<any>,
+  "icon" | "theme" | "color" | "iconColor"
 > & {
   /**
    * @renamed Renamed from 'name' to 'icon` in v5.x
    * Icon to show.
    */
-  icon: IconSource;
+  icon: any;
   /**
    * Function to execute on press.
    */
@@ -60,7 +60,7 @@ const StyleContext = React.createContext<StyleContextType>({
   style: {},
   isTextInputFocused: false,
   forceFocus: () => {},
-  testID: '',
+  testID: "",
 });
 
 const IconAdornment: React.FunctionComponent<
@@ -68,10 +68,10 @@ const IconAdornment: React.FunctionComponent<
     testID: string;
     icon: React.ReactNode;
     topPosition: number;
-    side: 'left' | 'right';
+    side: "left" | "right";
     theme?: ThemeProp;
     disabled?: boolean;
-  } & Omit<StyleContextType, 'style'>
+  } & Omit<StyleContextType, "style">
 > = ({
   icon,
   topPosition,
@@ -160,7 +160,7 @@ const TextInputIcon = ({
 
   return (
     <View style={[styles.container, style]}>
-      <IconButton
+      {/* <IconButton
         icon={icon}
         style={styles.iconButton}
         size={ICON_SIZE}
@@ -170,11 +170,11 @@ const TextInputIcon = ({
         theme={themeOverrides}
         rippleColor={rippleColor}
         {...rest}
-      />
+      /> */}
     </View>
   );
 };
-TextInputIcon.displayName = 'TextInput.Icon';
+TextInputIcon.displayName = "TextInput.Icon";
 
 TextInputIcon.defaultProps = {
   forceTextInputFocus: true,
@@ -182,11 +182,11 @@ TextInputIcon.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
+    position: "absolute",
     width: ICON_SIZE,
     height: ICON_SIZE,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   iconButton: {
     margin: 0,
