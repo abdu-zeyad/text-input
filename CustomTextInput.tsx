@@ -15,8 +15,10 @@ const SCALE = 0.7;
 
 const CustomTextInput = (inputProps: CustomTextInputProps) => {
   const { style, ...props } = inputProps;
+  const styles = style?.valueOf() as TextStyle | undefined;
 
   const [value, setValue] = useState(props.value);
+  const textInputRef = useRef<TextInput>(null);
 
   const scale = useRef(new Animated.Value(1)).current;
   const translateY = useRef(new Animated.Value(1)).current;
@@ -25,8 +27,6 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
   const [boxHeight, setBoxHeight] = useState(0);
   const [textWidth, setTextWidth] = useState(0);
   const [textHeight, setTextHeight] = useState(0);
-
-  const textInputRef = useRef<TextInput>(null);
 
   const focus = () => {
     Animated.timing(scale, {
@@ -66,8 +66,6 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
       useNativeDriver: true,
     }).start();
   };
-
-  const styles = style?.valueOf() as TextStyle | undefined;
 
   return (
     <View
