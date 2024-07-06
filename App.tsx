@@ -13,7 +13,7 @@ const App = () => {
         padding: 100,
       }}
     >
-      <CustomTextInput />
+      <CustomTextInput placeholder="test" />
       <CustomTextInput />
     </View>
   );

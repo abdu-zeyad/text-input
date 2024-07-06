@@ -4,11 +4,14 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextInputProps,
   View,
 } from "react-native";
 import React, { useRef, useState } from "react";
 
-const CustomTextInput = () => {
+interface CustomTextInputProps extends TextInputProps {}
+
+const CustomTextInput = (props: CustomTextInputProps) => {
   const scale = useRef(new Animated.Value(1)).current;
   const translateY = useRef(new Animated.Value(1)).current;
   const translateX = useRef(new Animated.Value(1)).current;
@@ -33,7 +36,7 @@ const CustomTextInput = () => {
       useNativeDriver: true,
     }).start();
     Animated.timing(translateX, {
-      toValue: -textWidth * SCALE,
+      toValue: -textWidth * SCALE * 0.5,
       duration: 200,
       useNativeDriver: true,
     }).start();
@@ -72,6 +75,7 @@ const CustomTextInput = () => {
           height: "100%",
           padding: 15,
           zIndex: 1,
+          justifyContent: "center",
         }}
         pointerEvents="none"
         onLayout={(e) => {
@@ -80,35 +84,39 @@ const CustomTextInput = () => {
           setBoxWidth(dim.width);
         }}
       >
-        <Animated.Text
-          onLayout={(e) => {
-            const dim = e.nativeEvent.layout;
-            setTextWidth(dim.width);
-            setTextHeight(dim.height);
-          }}
-          style={{
-            transform: [
-              {
-                scale,
-              },
-              {
-                translateY,
-              },
-              {
-                translateX,
-              },
-            ],
-            alignSelf: "flex-start",
-            //borderWidth: 1,
-            backgroundColor: "white",
-            paddingHorizontal: 5,
-          }}
-        >
-          tst
-        </Animated.Text>
+        {props.placeholder && (
+          <Animated.Text
+            onLayout={(e) => {
+              const dim = e.nativeEvent.layout;
+              setTextWidth(dim.width);
+              setTextHeight(dim.height);
+            }}
+            style={{
+              transform: [
+                {
+                  scale,
+                },
+                {
+                  translateY,
+                },
+                {
+                  translateX,
+                },
+              ],
+              alignSelf: "flex-start",
+              //borderWidth: 1,
+              backgroundColor: "red",
+              justifyContent: "center",
+              paddingHorizontal: 5,
+            }}
+          >
+            {props.placeholder}
+          </Animated.Text>
+        )}
       </View>
 
       <TextInput
+        {...props}
         style={{
           borderWidth: 1,
           padding: 15,
@@ -119,6 +127,7 @@ const CustomTextInput = () => {
         onBlur={(e) => {
           blur();
         }}
+        placeholder=""
       />
     </View>
   );
