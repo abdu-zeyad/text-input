@@ -10,7 +10,7 @@ const App = () => {
         padding: 100,
       }}
     >
-      <TextInput label={"testtt"} />
+      <TextInput label={"testtt"} mode="outlined" multiline />
       <TextInput label={"gggg"} />
     </View>
   );
