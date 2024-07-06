@@ -8,9 +8,12 @@ import {
   TextStyle,
   View,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
-interface CustomTextInputProps extends TextInputProps {}
+interface CustomTextInputProps extends TextInputProps {
+  right?: () => React.JSX.Element;
+}
 const SCALE = 0.7;
 
 const CustomTextInput = (inputProps: CustomTextInputProps) => {
@@ -26,6 +29,8 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
   const [boxHeight, setBoxHeight] = useState(0);
   const [textWidth, setTextWidth] = useState(0);
   const [textHeight, setTextHeight] = useState(0);
+
+  const [isActive, setIsActive] = useState(false);
 
   const focus = (duration = 200) => {
     if (boxHeight && textHeight) {
@@ -45,6 +50,7 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
         duration,
         useNativeDriver: true,
       }).start();
+      setIsActive(true);
     }
   };
 
@@ -68,6 +74,7 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
       duration: 200,
       useNativeDriver: true,
     }).start();
+    setIsActive(false);
   };
 
   useEffect(() => {
@@ -83,82 +90,95 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
     <View
       style={{
         marginBottom: styles?.marginBottom,
+        borderWidth: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        borderRadius: 5,
+        borderColor: isActive ? "blue" : "black",
       }}
     >
-      <View
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          padding: 15,
-          zIndex: 1,
-          justifyContent: "center",
-        }}
-        pointerEvents="none"
-        onLayout={(e) => {
-          const dim = e.nativeEvent.layout;
-          setBoxHeight(dim.height);
-        }}
-      >
-        {props.placeholder && (
-          <Animated.Text
-            onLayout={(e) => {
-              const dim = e.nativeEvent.layout;
-              setTextWidth(dim.width);
-              setTextHeight(dim.height);
-            }}
-            style={{
-              transform: [
-                {
-                  scale,
-                },
-                {
-                  translateY,
-                },
-                {
-                  translateX,
-                },
-              ],
-              alignSelf: "flex-start",
-              backgroundColor: "white",
-              justifyContent: "center",
-              paddingHorizontal: 5,
-            }}
-          >
-            {props.placeholder}
-          </Animated.Text>
-        )}
+      {/* fot the text input */}
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            padding: 10,
+            zIndex: 1,
+            justifyContent: "center",
+          }}
+          pointerEvents="none"
+          onLayout={(e) => {
+            const dim = e.nativeEvent.layout;
+            setBoxHeight(dim.height);
+          }}
+        >
+          {props.placeholder && (
+            <Animated.Text
+              onLayout={(e) => {
+                const dim = e.nativeEvent.layout;
+                setTextWidth(dim.width);
+                setTextHeight(dim.height);
+              }}
+              style={{
+                transform: [
+                  {
+                    scale,
+                  },
+                  {
+                    translateY,
+                  },
+                  {
+                    translateX,
+                  },
+                ],
+                alignSelf: "flex-start",
+                backgroundColor: "white",
+                justifyContent: "center",
+                paddingHorizontal: 5,
+                color: isActive ? "blue" : "black",
+              }}
+            >
+              {props.placeholder}
+            </Animated.Text>
+          )}
+        </View>
+
+        <TextInput
+          {...props}
+          style={[
+            style,
+            {
+              padding: 10,
+              margin: 0,
+              marginBottom: 0,
+              marginVertical: 0,
+              marginTop: 0,
+              // borderWidth: 1,
+            },
+          ]}
+          value={props.value ?? value}
+          onChangeText={(t) => {
+            props.onChangeText && props.onChangeText(t);
+            setValue(t);
+          }}
+          onFocus={(e) => {
+            focus();
+            props.onFocus && props.onFocus(e);
+          }}
+          onBlur={(e) => {
+            blur();
+            props.onBlur && props.onBlur(e);
+          }}
+          placeholder=""
+          ref={textInputRef}
+        />
       </View>
 
-      <TextInput
-        {...props}
-        style={[
-          style,
-          {
-            padding: 15,
-            margin: 0,
-            marginBottom: 0,
-            marginVertical: 0,
-            marginTop: 0,
-            borderWidth: 1,
-          },
-        ]}
-        value={props.value ?? value}
-        onChangeText={(t) => {
-          props.onChangeText && props.onChangeText(t);
-          setValue(t);
-        }}
-        onFocus={(e) => {
-          focus();
-          props.onFocus && props.onFocus(e);
-        }}
-        onBlur={(e) => {
-          blur();
-          props.onBlur && props.onBlur(e);
-        }}
-        placeholder=""
-        ref={textInputRef}
-      />
+      <View style={{ paddingHorizontal: 5 }}>
+        {props.right && props.right()}
+      </View>
     </View>
   );
 };

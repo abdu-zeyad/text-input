@@ -3,10 +3,11 @@ import React, { useRef, useState } from "react";
 import CustomTextInput from "./CustomTextInput";
 // import { TextInput } from "react-native-paper";
 // import TextInput from "./TextInput/TextInput";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const App = () => {
   const [value, setValue] = useState("");
-
+  const [shown, setShown] = useState(true);
   return (
     <View
       style={{
@@ -18,6 +19,20 @@ const App = () => {
         style={{ marginBottom: 20, borderRadius: 5 }}
         value={value}
         onChangeText={setValue}
+        secureTextEntry={shown}
+        multiline
+        right={() => {
+          return (
+            <Ionicons
+              name={shown ? "eye-off-outline" : "eye-outline"}
+              size={24}
+              color="black"
+              onPress={() => {
+                setShown(!shown);
+              }}
+            />
+          );
+        }}
       />
       <CustomTextInput />
     </View>
