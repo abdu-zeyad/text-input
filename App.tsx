@@ -1,11 +1,11 @@
 import { Animated, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import CustomTextInput from "./CustomTextInput";
 // import { TextInput } from "react-native-paper";
 // import TextInput from "./TextInput/TextInput";
 
 const App = () => {
-  const scale = useRef(new Animated.Value(1)).current;
+  const [value, setValue] = useState("");
 
   return (
     <View
@@ -16,7 +16,8 @@ const App = () => {
       <CustomTextInput
         placeholder="test"
         style={{ marginBottom: 20, borderRadius: 5 }}
-        value="sadas"
+        value={value}
+        onChangeText={setValue}
       />
       <CustomTextInput />
     </View>

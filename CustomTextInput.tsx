@@ -8,7 +8,7 @@ import {
   TextStyle,
   View,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface CustomTextInputProps extends TextInputProps {}
 const SCALE = 0.7;
@@ -23,28 +23,31 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
   const scale = useRef(new Animated.Value(1)).current;
   const translateY = useRef(new Animated.Value(1)).current;
   const translateX = useRef(new Animated.Value(1)).current;
-  const [boxWidth, setBoxWidth] = useState(0);
   const [boxHeight, setBoxHeight] = useState(0);
   const [textWidth, setTextWidth] = useState(0);
   const [textHeight, setTextHeight] = useState(0);
 
-  const focus = () => {
-    Animated.timing(scale, {
-      toValue: SCALE,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-    Animated.timing(translateY, {
-      toValue: -boxHeight / 2 - textHeight * SCALE,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-    Animated.timing(translateX, {
-      toValue: -textWidth * SCALE * 0.5,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
+  const focus = (duration = 200) => {
+    if (boxHeight && textHeight) {
+      // Ensure dimensions are set before performing the animation
+      Animated.timing(scale, {
+        toValue: SCALE,
+        duration,
+        useNativeDriver: true,
+      }).start();
+      Animated.timing(translateY, {
+        toValue: -boxHeight / 2 - textHeight * SCALE,
+        duration,
+        useNativeDriver: true,
+      }).start();
+      Animated.timing(translateX, {
+        toValue: -textWidth * SCALE * 0.5,
+        duration,
+        useNativeDriver: true,
+      }).start();
+    }
   };
+
   const blur = () => {
     if (value) {
       return;
@@ -67,6 +70,15 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
     }).start();
   };
 
+  useEffect(() => {
+    // Use a timeout to ensure that dimensions are fully set before focusing
+    if (value) {
+      setTimeout(() => {
+        focus(0);
+      }, 0.1); // Adjust the delay if necessary
+    }
+  }, [boxHeight, textHeight]); // Adding boxHeight and textHeight as dependencies
+
   return (
     <View
       style={{
@@ -86,7 +98,6 @@ const CustomTextInput = (inputProps: CustomTextInputProps) => {
         onLayout={(e) => {
           const dim = e.nativeEvent.layout;
           setBoxHeight(dim.height);
-          setBoxWidth(dim.width);
         }}
       >
         {props.placeholder && (
