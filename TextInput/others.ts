@@ -56,6 +56,9 @@ export type MD3Colors = {
   scrim: string;
   backdrop: string;
   elevation: MD3ElevationColors;
+  text: string;
+  disabled: string;
+  placeholder: string;
 };
 // MD3 types
 export enum MD3TypescaleKey {
@@ -160,6 +163,9 @@ const light: MD3Colors = {
   surfaceDisabled: "rgba(29, 27, 30, 0.12)",
   onSurfaceDisabled: "rgba(29, 27, 30, 0.38)",
   backdrop: "rgba(51, 47, 55, 0.4)",
+  text: "black",
+  disabled: "gray",
+  placeholder: "gray",
 };
 
 const dark = {

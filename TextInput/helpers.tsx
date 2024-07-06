@@ -1,7 +1,5 @@
 import { Platform } from "react-native";
 
-import color from "color";
-
 import { AdornmentSide, AdornmentType } from "./Adornment/enums";
 import type { AdornmentConfig } from "./Adornment/types";
 import {
@@ -329,7 +327,7 @@ const getInputTextColor = ({
   }
 
   if (disabled) {
-    return color(theme.colors.text).alpha(0.54).rgb().string();
+    return "gray";
   }
 
   return theme.colors.text;
@@ -364,7 +362,7 @@ const getActiveColor = ({
       return theme.colors.onSurfaceDisabled;
     }
 
-    return color(theme.colors.text).alpha(0.54).rgb().string();
+    return "gray";
   }
 
   return theme.colors.primary;
@@ -398,7 +396,7 @@ const getSelectionColor = ({
   }
 
   if (Platform.OS === "android") {
-    return color(activeColor).alpha(0.54).rgb().string();
+    return "blue";
   }
 
   return activeColor;
@@ -407,7 +405,7 @@ const getSelectionColor = ({
 const getFlatBackgroundColor = ({ theme, disabled }: BaseProps) => {
   if (theme.isV3) {
     if (disabled) {
-      return color(theme.colors.onSurface).alpha(0.04).rgb().string();
+      return "blue";
     } else {
       return theme.colors.surfaceVariant;
     }
@@ -417,9 +415,7 @@ const getFlatBackgroundColor = ({ theme, disabled }: BaseProps) => {
     return undefined;
   }
 
-  return theme.dark
-    ? color(theme.colors?.background).lighten(0.24).rgb().string()
-    : color(theme.colors?.background).darken(0.06).rgb().string();
+  return theme.dark ? "green" : "purple";
 };
 
 const getFlatUnderlineColor = ({
@@ -451,7 +447,8 @@ const getOutlinedOutlineInputColor = ({
   disabled,
   customOutlineColor,
 }: BaseProps & { customOutlineColor?: string }) => {
-  const isTransparent = color(customOutlineColor).alpha() === 0;
+  const isTransparent = false;
+  //color(customOutlineColor).alpha() === 0;
 
   if (!disabled && customOutlineColor) {
     return customOutlineColor;

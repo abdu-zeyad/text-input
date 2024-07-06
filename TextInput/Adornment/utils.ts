@@ -1,5 +1,3 @@
-import color from "color";
-
 import type { InternalTheme } from "../others";
 
 type BaseProps = {
@@ -14,10 +12,7 @@ export function getTextColor({ theme, disabled }: BaseProps) {
     }
     return theme.colors.onSurfaceVariant;
   }
-  return color(theme.colors?.text)
-    .alpha(theme.dark ? 0.7 : 0.54)
-    .rgb()
-    .string();
+  return theme.colors?.text;
 }
 
 export function getIconColor({
